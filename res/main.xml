@@ -1,0 +1,7 @@
+<box>
+  <vbox id="main" class="board" percent-width="80">
+    <input id="program" percent-width="100" height="200" multiline="yes" font-color="white" font-family="monospace" />
+    <label id="result" text="here you will see result" />
+    <text-button onClick="process" text="evaluate" background-color="red" />
+  </vbox>
+</box>

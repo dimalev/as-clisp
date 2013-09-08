@@ -1,0 +1,14 @@
+.board {
+    background-gradient-color-1: blue;
+    background-gradient-color-2: cyan;
+    border-width: 1;
+    border-delta: 2;
+    border-color: white;
+    padding: 10;
+}
+
+label {
+    font-family: _sans;
+    font-size: 20;
+    font-color: blue;
+}
