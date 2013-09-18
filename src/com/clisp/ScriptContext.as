@@ -9,13 +9,18 @@ package com.clisp {
 
     public function getAttribute(name:String, scope:Number = NaN):* {
       if(isNaN(scope)) {
-        for(var i:uint = 0; i < mScopeIds.length; ++i) {
-          if(mScopes[mScopeIds[i]].hasBinding(name))
-            return mScopes[mScopeIds[i]].getBinding(name);
-        }
-        return mScopes[mScopeIds[0]].getBinding(name);
+        scope = getAttributeScope(name);
+        return mScopes[isNaN(scope) ? mScopeIds[0] : scope].getBinding(name);
       }
       return mScopes[scope].getBinding(name);
+    }
+
+    public function getAttributeScope(name:String):Number {
+      for(var i:uint = 0; i < mScopeIds.length; ++i) {
+        if(mScopes[mScopeIds[i]].hasBinding(name))
+          return mScopeIds[i];
+      }
+      return NaN;
     }
 
     public function setAttribute(name:String, value:*, scope:uint):void {

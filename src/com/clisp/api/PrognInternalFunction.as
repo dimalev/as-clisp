@@ -16,7 +16,7 @@ package com.clisp.api {
       var res:CLispSymbol = CLispNil.NIL;
       while(!CLispNil.NIL.equals(args)) {
         res = mScritEngine.execute(ctx, args.car, scope);
-        args = args.cdr;
+        args = args.cdr as CLispCons;
       }
       return res;
     }

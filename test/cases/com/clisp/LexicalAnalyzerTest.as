@@ -24,5 +24,17 @@ package cases.com.clisp {
               new CLispCons(new CLispNumber("6"), new CLispNil)));
       assertTrue(intendedRes.equals(res));
     }
+
+    [Test(description = "test quoted elements")]
+    public function quotedElement():void {
+      var la:LexicalAnalyzer = new LexicalAnalyzer;
+      var res:CLispSymbol = la.parse("(defun myfun 'quoted)");
+      var intendedRes:CLispCons =
+      new CLispCons(new CLispSymbolRaw("defun"),
+          new CLispCons(new CLispSymbolRaw("myfun"),
+              new CLispCons(new CLispCons(CLispSymbolRaw.QUOTE,
+                  new CLispCons(new CLispSymbolRaw("quoted"), CLispNil.NIL)), CLispNil.NIL)));
+      assertTrue(res.toString() + " =/= " + intendedRes.toString(), intendedRes.equals(res));
+    }
   }
 }

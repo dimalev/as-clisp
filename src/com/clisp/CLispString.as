@@ -6,6 +6,7 @@ package com.clisp {
       this.value = value;
     }
 
+    public override function get type():CLispSymbolRaw { return CLispSymbolRaw.STRING; }
 
     public override function toString():String { return "\"" + value + "\""; }
   }

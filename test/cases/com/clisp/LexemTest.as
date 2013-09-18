@@ -16,8 +16,24 @@ package cases.com.clisp {
         dataProvider=numberData)]
     public function numberLexem(str:String, res:Number):void {
       var l:Lexem = Lexem.fetch(str);
-      assertEquals("lexem type", Lexem.NUMBER, l.type);
-      assertEquals("lexem value", res, l.value);
+      assertEquals("lexem type (" + str + ") " + l.value + ".", l.type, Lexem.NUMBER);
+      assertEquals("lexem value (" + str + ") " + l.value + ".", l.value, res);
+    }
+
+    public static var symbolData:Array = [ ["dima", "dima"], ["+", "+"], ["/)", "/"], ["eq ", "eq"] ];
+
+    [Test(description = "test fetch symbols",
+        dataProvider=symbolData)]
+    public function symbolLexem(str:String, res:String):void {
+      var l:Lexem = Lexem.fetch(str);
+      assertEquals("lexem type (" + str + ") " + l.value + ".", Lexem.SYMBOL, l.type);
+      assertEquals("lexem value (" + str + ") " + l.value + ".", res, l.value);
+    }
+
+    [Test(description = "test quoted")]
+    public function escapeLexem():void {
+      var l:Lexem = Lexem.fetch("'lala");
+      assertEquals("lexem type", Lexem.QUOTE, l.type);
     }
   }
 }

@@ -15,21 +15,21 @@ package cases.com.clisp {
 
     [Test(description = "Testing set operation")]
     public function checkSet():void {
-      var res:CLispSymbol = buildAndRun("(progn (set 'a 10) (set 'b 12) (+ a b))");
+      var res:CLispSymbol = buildAndRun("(progn (setf a 10) (setf b 12) (+ a b))");
       Assert.assertTrue("We got number as a result", res is CLispNumber);
       Assert.assertTrue("Right number", (res as CLispNumber).number == 22);
     }
 
     [Test(description = "Testing function definition")]
     public function defineAndRun():void {
-      var res:CLispSymbol = buildAndRun("(progn (def inc (data) (+ data 1)) (inc 12))");
+      var res:CLispSymbol = buildAndRun("(progn (defun inc (data) (+ data 1)) (inc 12))");
       Assert.assertTrue("We got number as a result", res is CLispNumber);
       Assert.assertTrue("Right number", (res as CLispNumber).number == 13);
     }
 
     [Test(description = "Testing function encapsulation")]
     public function defEncapsulation():void {
-      var res:CLispSymbol = buildAndRun("(progn (set 'val 12) (def inc (data) (set 'val 1) (+ data val)) (inc 12) val)");
+      var res:CLispSymbol = buildAndRun("(progn (setf val 12) (defun inc (data) (setf val 1) (+ data val)) (inc 12) val)");
       Assert.assertTrue("We got number as a result", res is CLispNumber);
       Assert.assertTrue("Right number", (res as CLispNumber).number == 12);
     }
@@ -37,9 +37,9 @@ package cases.com.clisp {
     [Test(description = "Multiline program")]
     public function multiline():void {
       var res:CLispSymbol = buildAndRun(["(progn           ",
-                                         "  (set 'val 12)  ",
-                                         "  (def inc (data)",
-                                         "    (set 'val 1) ",
+                                         "  (setf val 12)  ",
+                                         "  (defun inc (data)",
+                                         "    (setf val 1) ",
                                          "    (+ data val))",
                                          "  (inc 12)       ",
                                          "  val)           "].join("\n"));

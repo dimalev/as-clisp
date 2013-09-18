@@ -1,4 +1,7 @@
 package com.clisp {
+  import com.clisp.operators.Quote;
+  import com.clisp.operators.Backquote;
+
   public class LexicalAnalyzer {
     private static const EMPTY:RegExp = /^\s+/;
 
@@ -37,14 +40,16 @@ package com.clisp {
         line = line.substr(lexem.value.length);
         switch(lexem.type) {
         case Lexem.NUMBER: return new ParseResult(new CLispNumber(lexem.value), 0, skiped);
-        case Lexem.STRING: return new ParseResult(new CLispString(lexem.value.substr(1, lexem.value.length - 2)), 0, skiped);
-        case Lexem.SYMBOL: return new ParseResult(new CLispSymbolRaw(lexem.value), 0, skiped);
+        case Lexem.QUOTE: return quotify(CLispSymbolRaw.QUOTE, prog, lineId, charId, skiped);
+        case Lexem.SHARP_QUOTE: return quotify(CLispSymbolRaw.SHARP_QUOTE, prog, lineId, charId, skiped);
+        case Lexem.BACKQUOTE: return quotify(CLispSymbolRaw.BACKQUOTE, prog, lineId, charId, skiped);
+        case Lexem.COMMA: return quotify(CLispSymbolRaw.COMMA, prog, lineId, charId, skiped);
+        case Lexem.COMMA_AT: return quotify(CLispSymbolRaw.COMMA_AT, prog, lineId, charId, skiped);
+        case Lexem.STRING:
+          return new ParseResult(new CLispString(lexem.value.substr(1, lexem.value.length - 2)), 0, skiped);
+        case Lexem.SYMBOL:
+          return new ParseResult(new CLispSymbolRaw(lexem.value), 0, skiped);
         case Lexem.NIL: return new ParseResult(CLispNil.NIL, 0, skiped);
-        case Lexem.ESCAPE:
-          res = parse2(prog, false, lineId, charId);
-          skiped += res.charCount;
-          return new ParseResult(new Escape(res.result), 0, skiped);
-          break;
         case Lexem.BRACE:
           if(lexem.value == ")") {
             trace("Error parsing - unexpected closing brace! line " + lineId + " char " + (charId-1) + " " + line);
@@ -98,7 +103,16 @@ package com.clisp {
           break;
         }
       }
-      throw new Error("Unreachable");
+      throw new Error("Unreachable!");
+    }
+
+    private function quotify(symbol:CLispSymbolRaw, prog:Array, lineId:uint, charId:uint, skiped:uint):ParseResult {
+      var res:ParseResult = parse2(prog, false, lineId, charId);
+      if(res.lineCount == 0)
+        return new ParseResult(new CLispCons(symbol, new CLispCons(res.result, CLispNil.NIL)),
+                               0, skiped + res.charCount);
+      return new ParseResult(new CLispCons(symbol, new CLispCons(res.result, CLispNil.NIL)),
+                             res.lineCount, res.charCount);
     }
   }
 }
