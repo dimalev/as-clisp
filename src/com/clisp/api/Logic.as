@@ -10,12 +10,8 @@ package com.clisp.api {
   import com.clisp.Bindings;
 
   public class Logic {
-    public static function plague(b:Bindings):void {
-      b.setBinding("=", new InternalFunction(equal));
-      b.setBinding("<", new InternalFunction(less));
-    }
-
-    public static function less(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
+    [Macros(name="<")]
+    public function less(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
       var prev:CLispSymbol = se.execute(ctx, args.car, scope);
       if(!(prev is CLispNumber)) {
         trace("Number expected!");
@@ -31,7 +27,8 @@ package com.clisp.api {
       return new CLispSymbolRaw("t");
     }
 
-    public static function equal(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
+    [Macros(name="=")]
+    public function equal(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
       var first:CLispSymbol = se.execute(ctx, args.car, scope);
       args = args.cdr as CLispCons;
       while(!CLispNil.NIL.equals(args)) {

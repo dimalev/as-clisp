@@ -10,14 +10,8 @@ package com.clisp.api {
   import com.clisp.Bindings;
 
   public class Arithmetic {
-    public static function plague(b:Bindings):void {
-      b.setBinding("+", new InternalFunction(summ));
-      b.setBinding("-", new InternalFunction(diff));
-      b.setBinding("*", new InternalFunction(mult));
-      b.setBinding("/", new InternalFunction(div));
-    }
-
-    public static function div(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
+    [Macros(name="/")]
+    public function div(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
       var arg:CLispSymbol = se.execute(ctx, args.car, scope);
       if(!(arg is CLispNumber)) throw new Error("Number expected! got " + arg);
       var n:Number = (arg as CLispNumber).number;
@@ -31,7 +25,8 @@ package com.clisp.api {
       return new CLispNumber(n);
     }
 
-    public static function mult(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
+    [Macros(name="*")]
+    public function mult(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
       var arg:CLispSymbol = se.execute(ctx, args.car, scope);
       if(!(arg is CLispNumber)) {
         trace("Number expected!");
@@ -51,7 +46,8 @@ package com.clisp.api {
       return new CLispNumber(n);
     }
 
-    public static function diff(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
+    [Macros(name="-")]
+    public function diff(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
       var arg:CLispSymbol = se.execute(ctx, args.car, scope);
       if(!(arg is CLispNumber)) {
         trace("Number expected!");
@@ -71,7 +67,8 @@ package com.clisp.api {
       return new CLispNumber(n);
     }
 
-    public static function summ(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
+    [Macros(name="+")]
+    public function summ(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
       var n:Number = 0;
       while(!CLispNil.NIL.equals(args)) {
         var arg:CLispSymbol = se.execute(ctx, args.car, scope);

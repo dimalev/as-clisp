@@ -1,5 +1,4 @@
 package com.clisp {
-  import com.clisp.operators.Quote;
   import com.clisp.api.PrognInternalFunction;
   import com.clisp.api.DefunInternalFunction;
   import com.clisp.api.DefmacroInternalFunction;
@@ -24,9 +23,9 @@ package com.clisp {
       var gl:Bindings = new Bindings;
       ctx.setBindings(gl, ScriptContext.GLOBAL_SCOPE);
 
-      Arithmetic.plague(gl);
-      Strings.plague(gl);
-      Logic.plague(gl);
+      ctx.importCustom(new Arithmetic);
+      ctx.importCustom(new Strings);
+      ctx.importCustom(new Logic);
 
       // special functions
       gl.setBinding("progn", new PrognInternalFunction(this));
@@ -82,7 +81,7 @@ package com.clisp {
       return ctx;
     }
 
-    public function execute(ctx:ScriptContext, prog:CLispSymbol, scope:uint = ScriptContext.GLOBAL_SCOPE):CLispSymbol {
+    public function execute(ctx:ScriptContext, prog:CLispSymbol, scope:uint = 0):CLispSymbol {
       try {
       var caar:CLispSymbol;
       if(CLispNil.NIL.equals(prog)) return prog;

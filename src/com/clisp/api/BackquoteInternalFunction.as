@@ -23,8 +23,8 @@ package com.clisp.api {
           var car:CLispSymbol = (aa as CLispCons).car;
           if(CLispSymbolRaw.COMMA.equals(car)) aa = se.execute(ctx, (aa as CLispCons).cadr, scope);
           else if(CLispSymbolRaw.COMMA_AT.equals(car)) {
-            var internal:CLispCons = se.execute(ctx, (aa as CLispCons).cadr, scope) as CLispCons;
-            var iter2:CLispCons = internal;
+            var inside:CLispCons = se.execute(ctx, (aa as CLispCons).cadr, scope) as CLispCons;
+            var iter2:CLispCons = inside;
             while(!CLispNil.NIL.equals(iter2)) {
               va.unshift(iter2.car);
               iter2 = iter2.cdr as CLispCons;

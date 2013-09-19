@@ -1,7 +1,4 @@
 package com.clisp {
-  import com.clisp.operators.Quote;
-  import com.clisp.operators.Backquote;
-
   public class LexicalAnalyzer {
     private static const EMPTY:RegExp = /^\s+/;
 
