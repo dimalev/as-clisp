@@ -39,8 +39,9 @@ package com.clisp {
       mScopeIds.splice(mScopeIds.indexOf(scope), 1);
     }
 
-    public function importCustom(object:Object):void {
-      var b:Bindings = getBindings(GLOBAL_SCOPE);
+    public function importCustom(object:Object, scope:uint = GLOBAL_SCOPE):void {
+      if(mScopes.length <= scope || !mScopes[scope]) setBindings(new Bindings, scope);
+      var b:Bindings = mScopes[scope];
       var td:XML = describeType(object);
       var name:String;
       var realName:String;
@@ -66,6 +67,7 @@ import com.clisp.IFunction;
 import com.clisp.ScriptEngine;
 import com.clisp.ScriptContext;
 import com.clisp.CLispSymbol;
+import com.clisp.CLispSymbolRaw;
 import com.clisp.CLispString;
 import com.clisp.CLispNumber;
 import com.clisp.CLispNil;
@@ -90,6 +92,7 @@ class FunctionDecomposer extends CLispSymbol implements IFunction {
     var res:Object = toCall(se, sc, scope, realArgs);
     if(res is Number) return new CLispNumber(res as Number);
     if(res is String) return new CLispString(res as String);
+    if(res is Boolean) return res ? CLispSymbolRaw.T : CLispNil.NIL;
     return CLispNil.NIL;
   }
 }

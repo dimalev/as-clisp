@@ -13,10 +13,7 @@ package com.clisp.api {
     [Macros(name="<")]
     public function less(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
       var prev:CLispSymbol = se.execute(ctx, args.car, scope);
-      if(!(prev is CLispNumber)) {
-        trace("Number expected!");
-        throw new Error("Number expected!");
-      }
+      if(!(prev is CLispNumber)) throw new Error("Number expected! got " + prev);
       args = args.cdr as CLispCons;
       while(!CLispNil.NIL.equals(args)) {
         var next:CLispSymbol = se.execute(ctx, args.car, scope);

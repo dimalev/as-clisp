@@ -11,7 +11,6 @@ package com.clisp.api {
 
   public class ApplyInternalFunction extends CLispSymbol implements IFunction {
     public function execute(se:ScriptEngine, ctx:ScriptContext, scope:uint, args:CLispCons):CLispSymbol {
-      var newScope:uint = scope + 1;
       var f:CLispSymbol = se.execute(ctx, args.car, scope);
       if(!(f is IFunction)) throw new Error("Not a function to execute! " + f.toString());
       var va:Vector.<CLispSymbol> = new Vector.<CLispSymbol>;

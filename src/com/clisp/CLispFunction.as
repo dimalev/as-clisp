@@ -96,6 +96,12 @@ package com.clisp {
               an = an.cdr as CLispCons;
               extractKeys(an, bd, se, sc, scope);
               an = CLispNil.NIL;
+            } else if(CLispSymbolRaw.REST.equals(argName)) {
+              rest = true;
+              an = an.cdr as CLispCons;
+              argName = an.car as CLispSymbolRaw;
+              bd.setBinding(argName.rawName, CLispNil.NIL);
+              an = CLispNil.NIL;
             } else throw new Error("Too few arguments. Need: " + mArguments.toString() + " given " + args.toString());
           }
           while(!CLispNil.NIL.equals(an)) {

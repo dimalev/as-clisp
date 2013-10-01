@@ -1,17 +1,57 @@
-(progn
+(let nil
+  (defmacro eq (&rest args) `(= ,@args))
 
   (defmacro caar (x) `(car (car ,x)))
   (defmacro cdar (x) `(cdr (car ,x)))
   (defmacro cadr (x) `(car (cdr ,x)))
   (defmacro cddr (x) `(cdr (cdr ,x)))
 
+  (defun abs (x) (if (< x 0) (- x)))
+  (defun <= (first &rest args)
+    (or (null args)
+        (and (or (< first (car args)) (= first (car args)))
+             (apply #'<= args))))
+  (defun >= (first &rest rest)
+    (or (null rest)
+        (and (or (> first (car rest)) (= first (car rest)))
+             (apply #'>= rest))))
+  (defun > (first &rest rest)
+    (or (null rest)
+        (and (let ((second (car rest))) (not (<= first second)))
+             (apply #'> rest))))
+
+  (defun list (&rest result) result)
+
+  (defun reduce (initial f args)
+    (if (null args)
+        initial
+      (reduce (apply #'f initial (list (car args))) #'f (cdr args))))
+
+  (defun max (&rest all)
+    (labels ((-max (left right) (if (> left right) left right)))
+      (reduce (car all) #'-max (cdr all))))
+
+  (defun min (&rest all)
+    (labels ((-max (left right) (if (< left right) left right)))
+      (reduce (car all) #'-max (cdr all))))
+
   (defun consp (x) (typep x 'cons))
-
   (defun atom (x) (not (consp x)))
+  (defun stringp (x) (typep x 'string))
+  (defun numberp (x) (typep x 'number))
+  (defmacro integerp (x) `(numberp ,x))
 
-  (defun null (x) (= x nil))
-
+  (defun null (x) (eq x nil))
   (defun not (x) (eq x nil))
+
+  (defmacro or (&optional first &rest rest)
+    (if (null rest)
+        first
+      (let ((g (gensym)))
+        `(let ((,g ,first))
+           (if ,g
+               ,g
+             (or ,@rest))))))
 
   (defmacro and (&rest args)
     (cond ((null args) t)

@@ -28,7 +28,7 @@ TEST_APP:=test.swf
 TEST_WIDTH:=1024
 TEST_HEIGHT:=800
 
-DEBUG:=true
+DEBUG:=false
 
 .PHONY: clean
 
@@ -43,6 +43,7 @@ lib: ${DEST_DIR}/${DEST_LIB_NAME}
 
 ${DEST_DIR}/${DEST_NAME}: ${SRC_DIR}/${APP_NAME} Makefile
 	${MXMLC} -source-path ${SRC_DIR} \
+           --keep-as3-metadata=Macros,Function \
            --output ${DEST_DIR}/${DEST_NAME} \
            --default-size ${APP_WIDTH} ${APP_HEIGHT} \
            --default-background-color ${BG_COLOR} \
@@ -52,7 +53,7 @@ ${DEST_DIR}/${DEST_NAME}: ${SRC_DIR}/${APP_NAME} Makefile
 
 ${DEST_DIR}/${DEST_LIB_NAME}: ${SRC_DIR}/${APP_NAME} Makefile
 	${COMPC} -source-path ${SRC_DIR} \
-           --keep-as3-metadata= \
+           --keep-as3-metadata=Macros,Function \
            -include-sources ${SRC_DIR}/com/clisp/ \
            --output ${DEST_DIR}/${DEST_LIB_NAME}
 
@@ -66,7 +67,6 @@ ${DEST_DIR}/${TEST_APP}: ${TEST_DIR}/${TEST_APP_NAME} ${TEST_RUNNER_SRC} ${TEST_
            ${TEST_DIR}/${TEST_APP_NAME}
 
 clean:
-	-rm ${DEST_DIR}/${DEST_NAME}
-	-rm ${DEST_DIR}/${TEST_APP}
+	-rm ${DEST_DIR}/*
 
 include html.mk

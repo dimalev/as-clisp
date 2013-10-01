@@ -13,7 +13,7 @@ package com.clisp.api {
       var name:CLispSymbol = args.car;
       if(!(name is CLispSymbolRaw)) throw new Error("Name should be a Symbol!");
       var f:CLispMacros = CLispMacros.fromCons(args.cdr as CLispCons);
-      ctx.setAttribute((name as CLispSymbolRaw).rawName, f, scope);
+      ctx.setAttribute((name as CLispSymbolRaw).rawName, f, ScriptContext.GLOBAL_SCOPE);
       return f;
     }
   }

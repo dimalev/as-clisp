@@ -17,11 +17,8 @@ package com.clisp.api {
       while(!CLispNil.NIL.equals(iter)) {
         var def:CLispCons = iter.car as CLispCons;
         var name:CLispSymbol = def.car;
-        trace(def);
-        trace(name);
         if(!(name is CLispSymbolRaw)) throw new Error(name.toString() + " is not a Symbol!");
         var value:CLispSymbol = se.execute(ctx, def.cadr, scope);
-        trace(value);
         bd.setBinding((name as CLispSymbolRaw).rawName, value);
         iter = iter.cdr as CLispCons;
       }

@@ -6,10 +6,8 @@ package com.clisp {
 
     public function getBinding(name:String):* {
       name = name.toUpperCase();
-      if(!mBindings.hasOwnProperty(name)) {
-        trace("creating symbol " + name);
+      if(!mBindings.hasOwnProperty(name))
         mBindings[name] = new CLispSymbolRaw(name);
-      }
       return mBindings[name];
     }
 

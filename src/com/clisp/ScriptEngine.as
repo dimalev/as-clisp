@@ -104,6 +104,7 @@ package com.clisp {
                 return CLispFunction.fromCons((trg as CLispCons).cdr as CLispCons);
             }
           }
+          if(CLispSymbolRaw.LAMBDA.equals(car)) return CLispFunction.fromCons(cdr);
           var f:CLispSymbol = ctx.getAttribute((car as CLispSymbolRaw).rawName);
           if(f is IFunction) return (f as IFunction).execute(this, ctx, scope, cdr);
         }
