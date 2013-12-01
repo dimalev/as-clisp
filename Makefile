@@ -41,7 +41,7 @@ test: ${DEST_DIR}/${TEST_APP}
 lib: ${DEST_DIR}/${DEST_LIB_NAME}
 
 
-${DEST_DIR}/${DEST_NAME}: ${SRC_DIR}/${APP_NAME} Makefile
+${DEST_DIR}/${DEST_NAME}: $(shell find $(SRC_DIR) -iname *.as)
 	${MXMLC} -source-path ${SRC_DIR} \
            --keep-as3-metadata=Macros,Function \
            --output ${DEST_DIR}/${DEST_NAME} \
@@ -69,4 +69,4 @@ ${DEST_DIR}/${TEST_APP}: ${TEST_DIR}/${TEST_APP_NAME} ${TEST_RUNNER_SRC} ${TEST_
 clean:
 	-rm ${DEST_DIR}/*
 
-include html.mk
+include ../.html/html.mk
