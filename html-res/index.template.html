@@ -67,12 +67,12 @@
 			 JavaScript and Flash plug-in support is available. The div is initially hidden so that it doesn't show
 			 when JavaScript is disabled.
 		-->
+        <div class="game">
         <div id="flashContent">
         	<p>
             Either scripts and active content are not permitted to run or Adobe Flash Player version
             ${version_major}.${version_minor}.${version_revision} or greater is not installed.
 			    </p>
-          <div class="raw">
 			<script type="text/javascript"> 
 				var pageHost = ((document.location.protocol == "https:") ? "https://" :	"http://"); 
 				document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='" 
@@ -110,7 +110,33 @@
 	    </noscript>
         </div>
         <div class="raw">
-          
+          <div class="column">
+            <h2>Try arithmetic</h2>
+            Type arithmetic operations, and see:<br />
+            <span class="code">
+            (+ 10 20 30 40 50 60)
+            </span>
+          </div>
+          <div class="column">
+            <h2>Try functions</h2>
+            Lets declare function:<br />
+            <span class="code">
+            (defun factorial (n)<br />
+            &nbsp;&nbsp;(if (= n 1) 1 (* n (factorial (- n 1))))))<br />
+            </span>
+            Click evaluate, and call it:<br />
+            <span class="code">
+            (factorial 5)
+            </span>
+          </div>
+          <div class="column">
+            <h2>Make API classes</h2>
+            You can create own classes who will behave as an API.<br />
+            See examples in<br />
+            <a href="https://github.com/dimalev/as-clisp/blob/master/src/com/clisp/api/Arithmetic.as">com.clisp.api.Arithmetic</a><br />
+            or<br />
+            <a href="https://github.com/dimalev/as-clisp/blob/master/src/com/clisp/api/Strings.as">com.clisp.api.Strings</a><br />
+          </div>
         </div>
 	  </div>
    </body>
